@@ -1,0 +1,62 @@
+body 
+{
+  padding: 20px; 
+  margin: 0;
+  background-image: url('bgdata2.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+    }
+    
+#clock {
+  float: right;
+  margin: 10px;
+  font-size: 35px;
+  color: white;
+}
+
+.garis {
+  width: 100%;
+  height: 2px;
+  background-color: #ffffff; 
+  border-radius: 10px;
+}
+
+.modal {
+  display: none;
+  position: fixed;  
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+}
+
+@font-face {
+  font-family: 'Tenali Ramakrishna';
+  src: url('path/to/tenali-ramakrishna.woff2') format('woff2'),
+       url('path/to/tenali-ramakrishna.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (max-width: 768px) {
+  .modal-content {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .modal-content {
+    width: 90%;
+  }
+}

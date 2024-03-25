@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Mahasiswa</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
+  <link rel="stylesheet" type="text/css" href="styledata.css">
+  <style>
+    .header {
+      color: white;
+      font-family: 'Tenali Ramakrishna', serif;
+      font-weight: bold;
+    }
+
+    .usaha {
+      color: white;
+      font-family: 'Tenali Ramakrishna', serif;
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="clock" style="margin-bottom: 50px; top: 10px; right: 10px;"></div>
+<div class="header">
+  <h2 style="margin-bottom: 20px;">Hello, <span id="username-placeholder"></span>!</h2>
+</div>
+
+<div class="garis" style="margin-bottom: 20px; font-weight: bold;"></div>
+<div class="usaha">
+  <h4 style="margin-bottom: 20px;">Usaha keras tidak akan mengkhianati hasil, tapi bisa mengkhianati impian.</h4>
+</div>
+<div class="garis" style="margin-bottom: 20px; font-weight: bold;"></div>
+
+<div class="container mt-5" style="padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0px 0px 5px #ccc; background-color: rgba(255, 255, 255, 0.9);">
+
+  <h2>Data Mahasiswa</h2>
+
+  <div class="form-group">
+    <input type="text" class="form-control" id="searchInput" placeholder="Cari berdasarkan NIM atau Nama">
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped" style="background-color: #ffffff; margin-bottom: 20px;">
+      <thead>
+        <tr>
+          <th>NIM</th>
+          <th>Nama Lengkap</th>
+          <th>Alamat</th>
+          <th>Pengaturan</th>
+        </tr>
+      </thead>
+      <tbody id="mahasiswaList"></tbody>
+    </table>
+  </div>
+
+  <button class="btn btn-primary" onclick="openModal('add')">Tambah Data</button>
+</div>
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close" style="color: #aaa; float: right; font-size: 28px; font-weight: bold;" onclick="document.getElementById('modal').style.display='none'">&times;</span>
+    <form id="mahasiswaForm" style="padding: 20px;">
+      <div class="form-group">
+        <label for="nim">NIM:</label>
+        <input type="text" class="form-control" id="nim" required>
+      </div>
+      <div class="form-group">
+        <label for="nama">Nama Lengkap:</label>
+        <input type="text" class="form-control" id="nama" required>
+      </div>
+      <div class="form-group">
+        <label for="alamat">Alamat:</label>
+        <input type="text" class="form-control" id="alamat" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Simpan</button>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  let mahasiswaData = [];
+
+  function renderData(filteredData = []) {
+    const mahasiswaList = document.getElementById('mahasiswaList');
+    mahasiswaList.innerHTML = '';
+    const dataToRender = filteredData.length ? filteredData : mahasiswaData;
+    dataToRender.forEach((mahasiswa, index) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${mahasiswa.nim}</td>
+        <td>${mahasiswa.nama}</td>
+        <td>${mahasiswa.alamat}</td>
+        <td>
+          <button class="btn btn-primary" onclick="openModal('edit', ${index})">Edit</button>
+          <button class="btn btn-danger" onclick="deleteData(${index})">Hapus</button>
+        </td>
+      `;
+      mahasiswaList.appendChild(row);
+    });
+  }
+
+  function search() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const filteredData = mahasiswaData.filter(mahasiswa => {
+      return mahasiswa.nim.toLowerCase().includes(searchTerm) || mahasiswa.nama.toLowerCase().includes(searchTerm);
+    });
+    renderData(filteredData);
+  }
+
+  function openModal(mode, index = null) {
+    const modal = document.getElementById('modal');
+    const form = document.getElementById('mahasiswaForm');
+    const nimInput = document.getElementById('nim');
+    const namaInput = document.getElementById('nama');
+    const alamatInput = document.getElementById('alamat');
+
+    if (mode === 'add') {
+      form.reset();
+      nimInput.disabled = false;
+    } else if (mode === 'edit') {
+      const mahasiswa = mahasiswaData[index];
+      nimInput.value = mahasiswa.nim;
+      nimInput.disabled = true;
+      namaInput.value = mahasiswa.nama;
+      alamatInput.value = mahasiswa.alamat;
+    }
+
+    modal.style.display = 'block';
+
+    const closeModal = () => {
+      modal.style.display = 'none';
+    };
+
+    const closeBtn = document.getElementsByClassName('close')[0];
+    closeBtn.onclick = closeModal;
+
+    window.onclick = (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    };
+
+    form.onsubmit = (event) => {
+      event.preventDefault();
+      const nim = nimInput.value;
+            const nama = namaInput.value;
+      const alamat = alamatInput.value;
+
+      if (mode === 'add') {
+        if (nim && nama && alamat) {
+          mahasiswaData.push({ nim, nama, alamat });
+          renderData();
+          showAlert('success', 'Data berhasil ditambahkan!');
+          closeModal();
+        } else {
+          showAlert('error', 'Data tidak lengkap!');
+        }
+      } else if (mode === 'edit') {
+        if (nama && alamat) {
+          mahasiswaData[index].nama = nama;
+          mahasiswaData[index].alamat = alamat;
+          renderData();
+          showAlert('success', 'Data berhasil diubah!');
+          closeModal();
+        } else {
+          showAlert('error', 'Data tidak lengkap!');
+        }
+      }
+    };
+  }
+
+  function deleteData(index) {
+    Swal.fire({
+      title: 'Apakah Anda yakin?',
+      text: 'Data akan dihapus secara permanen!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Hapus',
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        mahasiswaData.splice(index, 1);
+        renderData();
+        showAlert('success', 'Data berhasil dihapus!');
+      }
+    });
+  }
+
+  function showAlert(icon, message) {
+    Swal.fire({
+      icon: icon,
+      title: message,
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
+  function updateClock() {
+    const username = localStorage.getItem("username")
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const timeString = `<strong>${hours}:${minutes}:${seconds}</strong>`;
+    document.getElementById('clock').innerHTML = timeString;
+
+    document.getElementById("username-placeholder").textContent = username
+  }
+
+  setInterval(updateClock, 1000);
+  window.onload = updateClock;
+  renderData();
+
+  $(document).ready(function () {
+    $('#searchInput').on('keyup', search);
+  });
+
+  if (username) {
+    document.getElementById("welcomeMessage").textContent = username
+  } else {
+    window.location.href = "index.html"
+  }
+</script>
+</body>
+</html>

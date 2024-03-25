@@ -1,0 +1,300 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body 
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('bg1.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+
+.login 
+{
+    position: relative;
+    width: 358px;
+    padding: 80px 58px 50px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background: transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+.labelline 
+{
+    position: absolute;
+    font-size: 1em;
+    color: #fff;
+    padding: 0 50px;
+    margin-top: 16px;
+    background: transparent;
+    transition: 0.2s ease;
+}
+
+input:focus,
+input:valid 
+{
+    color: #66ff00;
+    border: 4px solid #66ff00;
+}
+
+input:focus + .labelline,
+input:valid + .labelline 
+{
+    color: #66ff00;
+    height: 30px;
+    line-height: 30px;
+    transform: translate(-15px, -30px) scale(0.88);
+    z-index: 1111;
+}
+
+.login:hover 
+{
+    box-shadow: 20px 30px 25px rgba(0, 0, 0, 0.2);
+    transform: translate(-5px);
+}
+
+.login form h2 
+{
+    position: relative;
+    margin-bottom: 30px;
+    line-height: 0.9em;
+    text-align: center;
+    font-size: 2rem;
+    color: #c9caca;
+}
+
+.login form h2 span 
+{
+    font-weight: bolder;
+    font-size: 1rem;
+    color: #c9caca;
+}
+
+.login form .inputBox 
+{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.login form .inputBox input 
+{
+    width: 100%;
+    border: 2px;
+    outline: none;
+    background: transparent;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    padding: 15px 20px;
+    padding-left: 40px;
+    z-index: 1111;
+    transition: 0.1s ease;
+}
+
+.login form .inputBox input[type="text"],
+.login form .inputBox input[type="password"] 
+{
+    width: 100%;
+    padding: 15px 20px;
+    padding-left: 40px;
+    margin-bottom: 20px;
+    background: transparent;
+}
+
+.login form .inputBox i 
+{
+    position: absolute;
+    left: 15px;
+    top: 35%;
+    transform: translateY(-50%);
+    color: #ebeeec;
+    font-size: 1.5rem;
+}
+
+.login form label 
+{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: #9fa6a1;
+}
+
+.login form input[type="checkbox"] 
+{
+    margin-right: 5px;
+}
+
+.login form input[type="submit"] 
+{
+    margin-top: 20px;
+    width: 100%;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.2rem;
+    background-color: #1c6dc3;
+    color: #ffffff;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.login form input[type="submit"]:hover 
+{
+    background-color: #0056b3;
+}
+
+.login .ors 
+{
+    color: aliceblue;
+}
+
+.login .ors2 
+{
+    color: rgb(244, 244, 244);
+}
+
+.login .fingerprint 
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+    cursor: pointer;
+}
+
+.login .fingerprint .fingerprintBox 
+{
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0, 1), -5px -5px 10px #fff;
+    border: 25px 20px 10px;
+    border-radius: 50px;
+    background: linear-gradient(315deg, #03a9f4, #0082bc);
+}
+
+.login .fingerprint .fingerprintBox img 
+{
+    max-width: 50px;
+    filter: invert(1);
+    animation: animate 1s linear infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes animate 
+{
+    0%,100% 
+    {
+        opacity: 1;
+    }
+    50% 
+    {
+        opacity: 0.5;
+    }
+}
+
+.login .fingerprint p 
+{
+    font-weight: 500;
+}
+
+@media screen and (max-width: 767px) 
+{
+    .login 
+    {
+        width: 90%;
+        padding: 50px 20px;
+    }
+
+    .login form h2 
+    {
+        font-size: 1.5rem;
+    }
+
+    .login form .inputBox input[type="submit"] 
+    {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 479px) 
+{
+    .login form h2 
+    {
+        font-size: 1.2rem;
+    }
+
+    .login form .inputBox input[type="submit"] 
+    {
+        font-size: 0.9rem;
+    }
+
+    .login form .inputBox input 
+    {
+        font-size: 1rem;
+    }
+}
+
+button 
+{
+  margin-top: 20px;
+    width: 100%;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.2rem;
+    background-color: #1c6dc3;
+    color: #ffffff;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover 
+{
+  opacity:1;
+  background-color:  #0056b3;
+}
+
+
+.signupbtn .loginbtn 
+{
+  float: left;
+  width: 100%;
+
+}
+
+
+
+.tombol::after 
+{
+  content: "";
+  clear: both;
+  display: table;
+}
+
+
+@media screen and (max-width: 300px) 
+{
+  .cancelbtn, .signupbtn 
+  {
+    width: 100%;
+  }
+}
